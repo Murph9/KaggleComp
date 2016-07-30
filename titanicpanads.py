@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jul 30 14:30:22 2016
-@author: Jake and Kaz
+@author: Jarrod, Jake and Kaz 
 """
 
 import csv as csv
