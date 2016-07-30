@@ -44,4 +44,15 @@ df['AgeIsNull'] = pd.isnull(df.Age).astype(int)
 
 df[['Gender','Pclass','Age','AgeFill', 'AgeIsNull']].head(10)
 
-print df.describe()
+df['FamilySize'] = df['SibSp'] + df['Parch']
+
+df['Age*Class'] = df.AgeFill * df.Pclass
+
+df.dtypes[df.dtypes.map(lambda x: x=='object')]
+
+df = df.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Age'], axis=1)
+
+df = df.dropna()
+
+train_data = df.values
+print train_data
