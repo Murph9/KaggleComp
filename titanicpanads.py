@@ -70,19 +70,18 @@ def cleanUpTheData(filenamewithext):
     # Column for age class
     df['Age*Class'] = df.AgeFill * df.Pclass
     
-    df['Gender*Age*Class'] = 0
+   
+    df['Gender*Age*Class'] = 0.0
     for row in range(len(df.AgeFill)):
-        if df['AgeFill'][row] > 30:
-            df.set_value(row, 'Gender*Age*Class', df['Pclass'][row] * (df['AgeFill'][row] - 30) * (df['Gender'][row] + 1) )
-        else:
-            df.set_value(row, 'Gender*Age*Class', df['Pclass'][row] * (30 - df['AgeFill'][row]) * (df['Gender'][row] + 1) )
+        index = int(df['AgeFill'][row]/(buckets))
+        df.set_value(row, 'Gender*Age*Class', df['Pclass'][row] * ages_percentage[index] * int(not bool(df['Gender'][row])) )
     
     
     # Get all the columns with type 'object'
     df.dtypes[df.dtypes.map(lambda x: x=='object')]
     
     # Drop all the non number columns for ease of use later
-    df = df.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Age', 'PassengerId', 'AgeIsNull', ], axis=1)
+    df = df.drop(['Name', 'Cabin','Sex', 'Ticket', 'Embarked', 'Age', 'PassengerId', 'AgeIsNull', 'SibSp', 'Parch' ], axis=1)
     # Also remove the rows containing nulls
     df = df.dropna()
     
@@ -91,8 +90,27 @@ def cleanUpTheData(filenamewithext):
     
     #print df[df['Gender']<1][['Survived', 'Gender', 'FamilySize']]
     #print df[['Survived', 'Gender', 'FamilySize', 'Gender*Age*Class']]
+    #print df[(df['AgeFill']<65) & (df['AgeFill']>50)][['Survived']].mean()
+    #print df
     
+df = pd.read_csv('train_noNa.csv', header=0)
+# Get age bucket percentage survival
+buckets = 10
+ages_survived = np.zeros((buckets))
+ages_total = np.zeros((buckets))
+
+for row in range(len(df.AgeFill)):
+    i = int(df['AgeFill'][row]/(buckets))
+    ages_survived[i] += df['Survived'][row]
+    ages_total[i] += 1
+
+ages_percentage = ages_survived/ages_total
+
+   
+
+
     
 cleanUpTheData('train.csv') # the data to train off
 cleanUpTheData('test.csv') # the data we get assessed on
+
 

@@ -25,7 +25,7 @@ test_data_pa = pd.read_csv('test_noNa.csv', header=0)
 test_data = test_data_pa.values
 
 print 'Training...'
-forest = RandomForestClassifier(n_estimators=1000)
+forest = RandomForestClassifier(n_estimators=100)
 forest = forest.fit( train_data[0::,1::], train_data[0::,0] )
 
 print 'Predicting...'
