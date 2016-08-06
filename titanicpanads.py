@@ -63,22 +63,36 @@ def cleanUpTheData(filenamewithext):
     # Fare is empty in the test data:
     df.loc[ (df['Fare'].isnull()) ] = 0 #cop out because it should be average    
     
-    # Column for family size
+    # Column for family size, fsf = familysizeFactor 
     df['FamilySize'] = df['SibSp'] + df['Parch']
+    #df['fsf'] = 1/(df['FamilySize']+1)
+    
     # Column for age class
     df['Age*Class'] = df.AgeFill * df.Pclass
+    
+    df['Gender*Age*Class'] = 0
+    for row in range(len(df.AgeFill)):
+        if df['AgeFill'][row] > 30:
+            df.set_value(row, 'Gender*Age*Class', df['Pclass'][row] * (df['AgeFill'][row] - 30) * (df['Gender'][row] + 1) )
+        else:
+            df.set_value(row, 'Gender*Age*Class', df['Pclass'][row] * (30 - df['AgeFill'][row]) * (df['Gender'][row] + 1) )
+    
     
     # Get all the columns with type 'object'
     df.dtypes[df.dtypes.map(lambda x: x=='object')]
     
     # Drop all the non number columns for ease of use later
-    df = df.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Age', 'PassengerId'], axis=1)
+    df = df.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Age', 'PassengerId', 'AgeIsNull', ], axis=1)
     # Also remove the rows containing nulls
     df = df.dropna()
     
     #save to file for machine learning (with out the array index at the start)
     df.to_csv(filename+'_noNa'+file_extension, index=False)
     
+    #print df[df['Gender']<1][['Survived', 'Gender', 'FamilySize']]
+    #print df[['Survived', 'Gender', 'FamilySize', 'Gender*Age*Class']]
+    
     
 cleanUpTheData('train.csv') # the data to train off
 cleanUpTheData('test.csv') # the data we get assessed on
+
