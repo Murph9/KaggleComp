@@ -1,0 +1,15 @@
+Ideas Log:
+	Order Reduction thingy (ask Jarrod)
+	Fibonachi-like Squence (need to generalise)
+	Binary Expansion (evil numbers) 
+	numbers written in base 2: https://oeis.org/A007088
+	number of n <= 2^n x^2+10y^2	https://oeis.org/A000024
+	beads
+    initial digit of n https://oeis.org/A000030 (YAY)
+	recursion function with one intial number https://oeis.org/A014827 
+	
+	
+	
+order reduction more info:
+	finds the highest power and its coeffiecient. highest power is len(array)-2. number of reduction steps to array of same numbers = highest order, O(). 
+	Once the highest power is found (with coefficient), subtract from series and find next lowest power, repeat ill constant.

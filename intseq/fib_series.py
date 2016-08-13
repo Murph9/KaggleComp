@@ -18,6 +18,29 @@ def fib_series(array):
     
     return array[i-1]+array[i-2]
 
+def first_digit(array):
+    for i in range(len(array)):
+        if (array[i] < 0):
+            return 0
+        s = str(i)[0]
+        if int(s) != array[i]:
+            return 0
+
+    return int(str(len(array))[0])
+
+
+#Fucntion array, put a function in here to run it..
+test_funcs = [fib_series, first_digit, lambda x: 0]
+
+# ..here
+def get_next(array):
+    result = 0
+    for funct in test_funcs:
+        result = funct(array)
+        if result != 0:
+            return result
+    return result
+
 
 
 with open('test.csv') as f:
@@ -32,9 +55,9 @@ for line in content:
     string = m.group(2)
     string = string.replace('"', '')
     array = map(int, string.split(','))
-    next_num = fib_series(array)
+    next_num = get_next(array)
     if (next_num != 0):
-        print rowId, next_num 
+        print rowId, next_num, array
     result.append([rowId, next_num])
     
 with open('zeros.csv', 'w') as f:
