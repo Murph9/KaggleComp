@@ -6,6 +6,7 @@ This is a temporary script file.
 """
 
 import re
+from scipy import stats as st
 
 def fib_series(array):
     if len(array)<=2:
@@ -28,9 +29,19 @@ def first_digit(array):
 
     return int(str(len(array))[0])
 
+def get_mode(array):
+    maxMode = 0
+    for i in array:
+        getMode = array.count(i)
+        if getMode > maxMode:
+            maxMode = getMode
+            modeNumber = i
+    return modeNumber
+
+    
 
 #Fucntion array, put a function in here to run it..
-test_funcs = [fib_series, first_digit, lambda x: 0]
+test_funcs = [fib_series, first_digit, get_mode, lambda x: 0]
 
 # ..here
 def get_next(array):
@@ -40,7 +51,6 @@ def get_next(array):
         if result != 0:
             return result
     return result
-
 
 
 with open('test.csv') as f:
@@ -56,8 +66,6 @@ for line in content:
     string = string.replace('"', '')
     array = map(int, string.split(','))
     next_num = get_next(array)
-    if (next_num != 0):
-        print rowId, next_num, array
     result.append([rowId, next_num])
     
 with open('zeros.csv', 'w') as f:
