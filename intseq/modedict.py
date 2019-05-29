@@ -15,8 +15,3 @@ for i in array:
 
 
 print modeNumber
-    
-    
-
-
-

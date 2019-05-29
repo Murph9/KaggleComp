@@ -17,9 +17,3 @@ df = pd.read_csv('train.csv', header=0)
 print df[['Survived','Fare']]
 df['Age'].hist(bins=15)
 P.show()
-
-
-
-
-
-    

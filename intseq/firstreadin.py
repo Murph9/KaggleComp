@@ -31,7 +31,7 @@ for line in content:
     string = string.replace('"', '')
     array = map(int, string.split(','))
     data.append(array)
-    
+
 #print data[0:10]
 
 minimum = 10000

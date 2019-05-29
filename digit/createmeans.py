@@ -39,7 +39,7 @@ for i in range(10):
 
     plt.imshow(results[i], interpolation='none', cmap='magma')
     plt.show()
-    
+
     np.savetxt(str(i)+"_avg.csv", results[i], fmt="%i", delimiter=",")
 
 print 'Done'
